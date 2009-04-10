@@ -55,8 +55,13 @@ end]],
 	["[status]"]      		= [[function(u) return UnitIsDead(u) and "Dead" or UnitIsGhost(u) and "Ghost" or not UnitIsConnected(u) and "Offline" or oUF.Tags["[resting]"](u) end]],
 	["[threat]"]      		= [[function(u) local s = UnitThreatSituation(u); return s == 1 and "++" or s == 2 and "--" or s == 3 and "Aggro" end]],
 	["[threatplus]"]		= [[function(u) 
-local_,_, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(u, u.."target")
-return rawthreatpct
+		local unitTarget = u.."target"
+		if(UnitExists(unitTarget))then
+			local_,_, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(u, uTarget)
+			return rawthreatpct
+		else
+			return ''
+		end		
 	end]],
 	["[threatcolor]"] 	= [[function(u) return Hex(GetThreatStatusColor(UnitThreatSituation(u))) end]],
 	["[cpoints]"]     		= [[function(u) local cp = GetComboPoints(u, 'target') return (cp > 0) and cp end]],
